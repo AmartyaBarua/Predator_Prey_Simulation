@@ -3,7 +3,12 @@
 //  Created by Amartya Barua on 7/18/17.
 //  Copyright © 2017 Amartya Barua. All rights reserved.
 //
+//  Predator Prey Simulation. The code is provided As is. No warranty whatsoever.
+/*  Please don't blindly copy this for your assignment/project. I am making this code available
+    so that people can learn from my work or mistakes and improve/build on what I have done. If you
+    just copy & paste this work then you are only cheating yourself.*/
 //
+//  This is one of my very early programs...
 
 #include <iostream>
 #include <vector>
