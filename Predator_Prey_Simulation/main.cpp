@@ -1,9 +1,8 @@
 //
-//  akb453_hw8_q2.cpp
-//  HW8
 //
-//  Created by Amar on 7/18/17.
-//  Copyright © 2017 Amar. All rights reserved.
+//  Created by Amartya Barua on 7/18/17.
+//  Copyright © 2017 Amartya Barua. All rights reserved.
+//
 //
 
 #include <iostream>
@@ -439,7 +438,7 @@ int main(){
     int bugSize = 0;
     //    needed to randomly place organisms
     srand(time(0));
-    //    creating the world
+    //    creating the world 20x20
     int n = 20;
     World board(n);
     //    create vectors for ants and doodlebugs
