@@ -24,6 +24,10 @@ public:
     World(int n);
     //    getter function. return the size of the vector
     int get_length() {return (int)grid.size();};
+    //    setter function. set the size of the matrix
+    void set_size(int newSize) {size = newSize;}
+    //    getter function. get the size of the matrix
+    int get_size() {return size;}
     //    getter function. return the <char> at the specified index of the vector
     char get_organism(int ind){return grid[ind];};
     //    friend function. place a specified <char> 'a' at index 'ind2' and insert '-' at 'ind1'
@@ -34,6 +38,7 @@ public:
     friend void printWorld(World& x, int n);
 private:
     vector<char> grid;
+    int size;
 };
 
 //default constructor 20x20
@@ -46,6 +51,7 @@ World::World(){
 
 //constructor
 World::World(int n){
+    set_size(n);
     //    initialize vector with '-'
     for(int i=0; i<n*n; i++){
         grid.push_back('-');
@@ -157,16 +163,16 @@ void Ant::move(World& x){
     //    generate a random number between 1 and 4
     rand_num = rand()%4 + 1;
     //    glaring example of lazy programming. I used this variable to scale the world. Note to self: update it so the end user does not have to manipulate the source code
-//    int n = 20;
+    int n = x.get_size();
     //    use the random number to move up,down,left,or right
     switch (rand_num) {
         case 1:
             //            get current position
             positionPrevious = getPosition();
             //            calculate tentative future position (up)
-            positionFuture = positionPrevious-x.get_length();
+            positionFuture = positionPrevious-n;
             //            if the tentative future position is within 0 to 399 and it is empty move to this position
-            if(0<=positionFuture && positionFuture<x.get_length()*x.get_length() && x.get_organism(positionFuture)=='-'){
+            if(0<=positionFuture && positionFuture<n*n && x.get_organism(positionFuture)=='-'){
                 //                update the current position
                 setPosition(positionFuture);
                 //                place the ant in the the updated current position in the world vector
@@ -175,8 +181,8 @@ void Ant::move(World& x){
             break;
         case 2:
             positionPrevious = getPosition();
-            positionFuture = positionPrevious+x.get_length();
-            if(0<=positionFuture && positionFuture<x.get_length()*x.get_length() && x.get_organism(positionFuture)=='-'){
+            positionFuture = positionPrevious+n;
+            if(0<=positionFuture && positionFuture<n*n && x.get_organism(positionFuture)=='-'){
                 setPosition(positionFuture);
                 placeOrganism(x, positionPrevious, positionFuture, 'o');
             }
@@ -184,7 +190,7 @@ void Ant::move(World& x){
         case 3:
             positionPrevious = getPosition();
             positionFuture = positionPrevious+1;
-            if(0<=positionFuture && positionFuture<x.get_length()*x.get_length() && x.get_organism(positionFuture)=='-'){
+            if(0<=positionFuture && positionFuture<n*n && x.get_organism(positionFuture)=='-'){
                 setPosition(positionFuture);
                 placeOrganism(x, positionPrevious, positionFuture, 'o');
             }
@@ -192,7 +198,7 @@ void Ant::move(World& x){
         case 4:
             positionPrevious = getPosition();
             positionFuture = positionPrevious-1;
-            if(0<=positionFuture && positionFuture<x.get_length()*x.get_length() && x.get_organism(positionFuture)=='-'){
+            if(0<=positionFuture && positionFuture<n*n && x.get_organism(positionFuture)=='-'){
                 setPosition(positionFuture);
                 placeOrganism(x, positionPrevious, positionFuture, 'o');
             }
@@ -207,36 +213,36 @@ void Ant::move(World& x){
 //member function. returns nothing. if an ant has survived for 3 turn (in this dreary virtual world) then it has earned the privilege to spawn (create) a new ant object (baptised as antBaby (imaginative, I know!)) and adds it to the ants vector.
 void Ant::breed(World& x, vector<Ant> &a, int bugs){
     //    lazy programming. don't do this
-//    int n = 20;
+    int n = x.get_size();
     //    get the current position. this will be used to check for empty space around it
     int position = getPosition();
     //    ONE BABY PER 3 TURNS POLICY
     if(getCounter() != 0 && getCounter()%3 == 0){       //ARE YOU APPROVED?
         
         //        check if the position above the current position is empty ('-')
-        if(0<=position-x.get_length() && position-x.get_length()<x.get_length()*x.get_length() && x.get_organism(position-x.get_length()) == '-'){
+        if(0<=position-n && position-n<n*n && x.get_organism(position-n) == '-'){
             //            create a new ant object
-            Ant antBaby(x,position-x.get_length());
+            Ant antBaby(x,position-n);
             //            add it to the vector
-            if(a.size()<(x.get_length()*x.get_length())-bugs){
+            if(a.size()<(n*n)-bugs){
                 a.push_back(antBaby);
             }
         }
-        else if(0<=position+x.get_length() && position+x.get_length()<x.get_length()*x.get_length() && x.get_organism(position+x.get_length()) == '-'){
-            Ant antBaby(x,position+x.get_length());
-            if(a.size()<(x.get_length()*x.get_length())-bugs){
+        else if(0<=position+n && position+n<n*n && x.get_organism(position+n) == '-'){
+            Ant antBaby(x,position+n);
+            if(a.size()<(n*n)-bugs){
                 a.push_back(antBaby);
             }
         }
-        else if(0<=position+1 && position+1<x.get_length()*x.get_length() && x.get_organism(position+1) == '-'){
+        else if(0<=position+1 && position+1<n*n && x.get_organism(position+1) == '-'){
             Ant antBaby(x,position+1);
-            if(a.size()<(x.get_length()*x.get_length())-bugs){
+            if(a.size()<(n*n)-bugs){
                 a.push_back(antBaby);
             }
         }
-        else if(0<=position-1 && position-1<x.get_length()*x.get_length() && x.get_organism(position-1) == '-'){
+        else if(0<=position-1 && position-1<n*n && x.get_organism(position-1) == '-'){
             Ant antBaby(x,position-1);
-            if(a.size()<(x.get_length()*x.get_length())-bugs){
+            if(a.size()<(n*n)-bugs){
                 a.push_back(antBaby);
             }
         }
@@ -316,7 +322,7 @@ void DoodleBug::move(World& x){
 //over loaded move function
 void DoodleBug::move(World& x, vector<Ant> &a){
     //    lazy. lazy. lazy
-    int n = 20;
+    int n = x.get_size();
     //    get the current location
     positionPrevious = getPosition();
     //    search and destroy. class specific rules. first looks for ants in the adjacent positions.
@@ -396,7 +402,7 @@ void DoodleBug::move(World& x, vector<Ant> &a){
 //member function. same as Ant::breed. bug must survive 8 turns before breeding.
 void DoodleBug::breed(World& x, vector<DoodleBug> &d, int ant){
     //    beating a dead horse
-    int n = 20;
+    int n = x.get_size();
     int position = getPosition();
     //    check if the bug survived 8 turns and don't add more than the total amount of space available
     if(getCounter() != 0 && getCounter()%8 == 0){
@@ -492,6 +498,5 @@ int main(){
     
     return 0;
 }
-
 
 
