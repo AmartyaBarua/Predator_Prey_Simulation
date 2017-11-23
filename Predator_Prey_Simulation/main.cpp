@@ -163,6 +163,7 @@ void Ant::move(World& x){
     //    generate a random number between 1 and 4
     rand_num = rand()%4 + 1;
     //    glaring example of lazy programming. I used this variable to scale the world. Note to self: update it so the end user does not have to manipulate the source code
+    //    status: fixed
     int n = x.get_size();
     //    use the random number to move up,down,left,or right
     switch (rand_num) {
@@ -213,6 +214,7 @@ void Ant::move(World& x){
 //member function. returns nothing. if an ant has survived for 3 turn (in this dreary virtual world) then it has earned the privilege to spawn (create) a new ant object (baptised as antBaby (imaginative, I know!)) and adds it to the ants vector.
 void Ant::breed(World& x, vector<Ant> &a, int bugs){
     //    lazy programming. don't do this
+    //    status: fixed
     int n = x.get_size();
     //    get the current position. this will be used to check for empty space around it
     int position = getPosition();
@@ -322,6 +324,7 @@ void DoodleBug::move(World& x){
 //over loaded move function
 void DoodleBug::move(World& x, vector<Ant> &a){
     //    lazy. lazy. lazy
+    //    status: fixed
     int n = x.get_size();
     //    get the current location
     positionPrevious = getPosition();
@@ -402,6 +405,7 @@ void DoodleBug::move(World& x, vector<Ant> &a){
 //member function. same as Ant::breed. bug must survive 8 turns before breeding.
 void DoodleBug::breed(World& x, vector<DoodleBug> &d, int ant){
     //    beating a dead horse
+    //    status: fixed
     int n = x.get_size();
     int position = getPosition();
     //    check if the bug survived 8 turns and don't add more than the total amount of space available
